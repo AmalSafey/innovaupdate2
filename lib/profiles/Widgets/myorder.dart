@@ -284,6 +284,7 @@ Future<void> rateProduct({
     throw Exception(errorData['message'] ?? 'Failed to submit rating');
   }
 }
+
 */
 
 import 'dart:convert';
@@ -411,74 +412,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // Display existing reviews
-            if (reviews.isNotEmpty) ...[
-              const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Text(
-                  'Your Previous Reviews',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: reviews.length,
-                itemBuilder: (context, index) {
-                  final review = reviews[index];
-                  return Card(
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                review['userName'],
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              const Spacer(),
-                              Row(
-                                children: List.generate(5, (starIndex) {
-                                  return Icon(
-                                    starIndex < review['rating']
-                                        ? Icons.star
-                                        : Icons.star_border,
-                                    color: Colors.amber,
-                                    size: 16,
-                                  );
-                                }),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 8),
-                          Text(review['comment']),
-                          const SizedBox(height: 8),
-                          Text(
-                            DateTime.parse(review['date'])
-                                .toString()
-                                .split('.')[0],
-                            style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-              const Divider(thickness: 2),
-            ],
-
             // Review input section for each product in cart
             const Padding(
               padding: EdgeInsets.all(16.0),
@@ -1164,4 +1097,5 @@ Future<void> rateProduct({
     rethrow;
   }
 }
+
 */
