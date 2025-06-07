@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -47,7 +46,6 @@ class _ProfileDesignState extends State<ProfileOwner> {
     });
   }
 
-  // اختيار ورفع الصورة مباشرة
   Future<void> _pickAndUploadImage() async {
     final pickedFile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -81,7 +79,7 @@ class _ProfileDesignState extends State<ProfileOwner> {
     if (isDeleted) {
       setState(() {
         _imageUrl = null;
-        _profileImage = null; // إعادة تعيين المتغيرات عند الحذف
+        _profileImage = null;
       });
     }
   }
@@ -200,13 +198,13 @@ class _ProfileDesignState extends State<ProfileOwner> {
                               ),
                             ],
                           ),
-                            Column(
+                          Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
                                 children: [
-                                 const Text(
+                                  const Text(
                                     "Role:",
                                     style: TextStyle(
                                       color: Constant.whiteColor,
@@ -215,7 +213,9 @@ class _ProfileDesignState extends State<ProfileOwner> {
                                     ),
                                     textAlign: TextAlign.end,
                                   ),
-                                  const SizedBox(width: 2,),
+                                  const SizedBox(
+                                    width: 2,
+                                  ),
                                   Text(
                                     user.roleName ?? "N/A",
                                     style: const TextStyle(
@@ -319,27 +319,36 @@ class _ProfileDesignState extends State<ProfileOwner> {
                 } else {
                   return const Center(
                       child: CircularProgressIndicator(
-                      color: Constant.mainColor,
+                    color: Constant.mainColor,
                   ));
                 }
               },
             ),
 
             const SizedBox(height: 15),
-            const ContainerUser(icon: Icons.show_chart , title: "Discover your Dashboard",route: null,),     
+            const ContainerUser(
+              icon: Icons.show_chart,
+              title: "Discover your Dashboard",
+              route: null,
+            ),
             const SizedBox(height: 15),
-            const ContainerUser(icon: Icons.lock , title: "Privacy & Security",route: PrivacyUser.routeName ,),     
-            const SizedBox( height: 15,),            
+            const ContainerUser(
+              icon: Icons.lock,
+              title: "Privacy & Security",
+              route: PrivacyUser.routeName,
+            ),
+            const SizedBox(
+              height: 15,
+            ),
             const SizedBox(height: 20),
             const LogoutTextField(),
 
-            const SizedBox( height: 20,),
-
+            const SizedBox(
+              height: 20,
+            ),
           ],
         ),
       ),
     );
   }
-
 }
-

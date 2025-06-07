@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -71,8 +69,8 @@ Future<List<InvestorInvestment>> fetchInvestorInvestments() async {
   final prefs = await SharedPreferences.getInstance();
   final token = prefs.getString('token');
 
-  final url = Uri.parse(
-      'https://innova-hub.premiumasp.net/api/Investment/investor-investments');
+  final url =
+      Uri.parse('https://innova-hub.premiumasp.net/api/Deals/investor-deals');
 
   final response = await http.get(
     url,

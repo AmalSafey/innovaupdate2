@@ -1,5 +1,3 @@
-
-
 class UserProfile {
   final String firstName;
   final String lastName;
@@ -10,6 +8,8 @@ class UserProfile {
   final String roleName;
   final String roleId;
   final String? profileImageUrl;
+  final String? profileCoverUrl;
+  final num? totalBalance;
 
   UserProfile({
     required this.firstName,
@@ -21,6 +21,8 @@ class UserProfile {
     required this.roleName,
     required this.roleId,
     this.profileImageUrl,
+    this.profileCoverUrl,
+    this.totalBalance,
   });
 
   factory UserProfile.fromJson(Map<String, dynamic> json) {
@@ -32,12 +34,15 @@ class UserProfile {
       phoneNumber: json['PhoneNumber'] ?? '',
       district: json['District'] ?? '',
       roleName: json['RoleName'] ?? '',
-      profileImageUrl: json['ProfileImageUrl']??"",
       roleId: json['RoleId'] ?? '',
+      profileImageUrl: json['ProfileImageUrl'] ?? '',
+      profileCoverUrl: json['ProfileCoverUrl'] ?? '',
+      totalBalance: json['TotalBalance'],
     );
   }
+
   @override
   String toString() {
-  return "firstName: $firstName, lastName: $lastName, email: $email, city: $city, phoneNumber: $phoneNumber, district: $district, roleName: $roleName, profileImageUrl: $profileImageUrl, roleId: $roleId";
+    return "firstName: $firstName, lastName: $lastName, email: $email, city: $city, phoneNumber: $phoneNumber, district: $district, roleName: $roleName, roleId: $roleId, profileImageUrl: $profileImageUrl, profileCoverUrl: $profileCoverUrl, totalBalance: $totalBalance";
   }
 }
