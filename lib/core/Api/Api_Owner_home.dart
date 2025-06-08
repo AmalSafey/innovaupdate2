@@ -100,7 +100,6 @@ class Investment {
 class ApiService {
   static const String baseUrl = 'https://innova-hub.premiumasp.net/api';
 
-  // دالة لجلب الاستثمارات
   Future<List<Investment>> getOwnerInvestments() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
