@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:innovahub_app/core/Api/Api_Manager_categories.dart';
@@ -10,9 +9,8 @@ import 'package:innovahub_app/home/widget/home_screen_categoys_body.dart';
 class HomeScreenCategories extends StatefulWidget {
   const HomeScreenCategories({super.key});
 
-  static const String routeName = 'categories';    // routeName:
-   //CategoryItemResponse? category;
-
+  static const String routeName = 'categories'; // routeName:
+  //CategoryItemResponse? category;
 
   @override
   State<HomeScreenCategories> createState() => _HomeScreenInvestorState();
@@ -23,13 +21,13 @@ class _HomeScreenInvestorState extends State<HomeScreenCategories> {
 
   @override
   Widget build(BuildContext context) {
-    
-    var arguments = ModalRoute.of(context)!.settings.arguments as CategoryItemResponse;     // receive data:
+    var arguments = ModalRoute.of(context)!.settings.arguments
+        as CategoryItemResponse; // receive data:
 
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-       /*eading:IconButton(
+        /*eading:IconButton(
           onPressed:() {
             
             Navigator.pop(context);
@@ -102,29 +100,26 @@ class _HomeScreenInvestorState extends State<HomeScreenCategories> {
           ),
         ),
       ),
-      
       body: FutureBuilder<CategoryModel>(
-        future: ApiManagerCategories.getProducts(arguments.categoryId),
-        builder: (context,snapshot) {
-          log(snapshot.connectionState.toString());
-          if(snapshot.connectionState == ConnectionState.waiting){
-
-            return const Center(child: CircularProgressIndicator(
-              color:Constant.mainColor,
-            ));
-          }else if(snapshot.hasError){
-
-            return Center(child: Text("Error: ${snapshot.error}"));
-          }else if (snapshot.connectionState == ConnectionState.done){
-            log(snapshot.data.toString());
-              return HomeScreenCategorysBody(categoryModel: snapshot.data!,);         // body:
-      
-          }else {
-            return Container();
-          }
-        }
-      ),
+          future: ApiManagerCategories.getProducts(arguments.categoryId),
+          builder: (context, snapshot) {
+            log(snapshot.connectionState.toString());
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                  child: CircularProgressIndicator(
+                color: Constant.mainColor,
+              ));
+            } else if (snapshot.hasError) {
+              return Center(child: Text("Error: ${snapshot.error}"));
+            } else if (snapshot.connectionState == ConnectionState.done) {
+              log(snapshot.data.toString());
+              return HomeScreenCategorysBody(
+                categoryModel: snapshot.data!,
+              ); // body:
+            } else {
+              return Container();
+            }
+          }),
     );
   }
 }
-

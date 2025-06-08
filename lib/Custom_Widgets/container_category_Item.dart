@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:innovahub_app/core/Api/Api_Manager_categories.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
@@ -16,8 +15,8 @@ class ContainerCategoryItem extends StatelessWidget {
       width: double.infinity,
       color: Constant.transparentColor,
       child: FutureBuilder<List<CategoryItemResponse>>(
-        
-        future: ApiManagerCategories.getAllCategoryItems(), // load data from Api:
+        future:
+            ApiManagerCategories.getAllCategoryItems(), // load data from Api:
 
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -82,5 +81,3 @@ class ContainerCategoryItem extends StatelessWidget {
     );
   }
 }
-
-
