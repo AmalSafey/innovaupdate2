@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
+import 'package:innovahub_app/home/Deals/disscussoffer.dart';
 import 'package:innovahub_app/home/widget/custom_search_bar.dart';
 
 class DealInvestor extends StatefulWidget {
@@ -17,11 +18,10 @@ class _DealInvestorState extends State<DealInvestor> {
         //mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          
           const CustomSearchBar(),
-
-          const SizedBox( height: 15,),
-          
+          const SizedBox(
+            height: 15,
+          ),
           Padding(
             padding: const EdgeInsets.all(13),
             child: Row(
@@ -209,9 +209,9 @@ class _DealInvestorState extends State<DealInvestor> {
           const SizedBox(
             height: 8,
           ),
-           const Padding(
-            padding:  EdgeInsets.only(left:20),
-            child:  Row(
+          const Padding(
+            padding: EdgeInsets.only(left: 20),
+            child: Row(
               children: [
                 Text(
                   "Business Type : ",
@@ -251,9 +251,9 @@ class _DealInvestorState extends State<DealInvestor> {
               " Lorem ipsum dolor sit amet, consectetur adipisicing elit,\n sed do eusmod tempor incididunt ut labore et dolore \n magna aliqua. Lorem ipsum dolor sit amet, consectetur \n adipisicing elit, sed doeiusmod tempor incididunt ut \n labore et dolore magna aliquaLorem ipsum dolor sit \n amet, consectetur adipisicing elit. ",
             ),
           ),
-
-          const SizedBox(  height: 8,),
-
+          const SizedBox(
+            height: 8,
+          ),
           const Padding(
             padding: EdgeInsets.only(left: 20),
             child: Row(
@@ -280,24 +280,24 @@ class _DealInvestorState extends State<DealInvestor> {
             padding: EdgeInsets.only(left: 20),
             child: Row(
               children: [
-
-                Text("Offer Deals : ",
+                Text(
+                  "Offer Deals : ",
                   style: TextStyle(
                       color: Constant.mainColor,
                       fontSize: 14,
                       fontWeight: FontWeight.bold),
                 ),
-               
-                Text("20% of total project",
+                Text(
+                  "20% of total project",
                   style: TextStyle(
                       color: Constant.mainColor, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
           ),
-
-          const SizedBox( height: 10,),
-
+          const SizedBox(
+            height: 10,
+          ),
           Padding(
             padding: const EdgeInsets.only(left: 20),
             child: Row(
@@ -325,21 +325,19 @@ class _DealInvestorState extends State<DealInvestor> {
                       width: 150,
                       fit: BoxFit.cover,
                     ),
-
                   ],
                 ),
               ],
             ),
           ),
-
           Row(
-           // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
-                margin: const EdgeInsets.only(left:20,top: 15) ,
+                margin: const EdgeInsets.only(left: 20, top: 15),
                 padding: const EdgeInsets.all(12),
                 //height: 40,
-                 width: 190,
+                width: 190,
                 decoration: BoxDecoration(
                   color: Colors.green,
                   borderRadius: BorderRadius.circular(15),
@@ -352,37 +350,37 @@ class _DealInvestorState extends State<DealInvestor> {
                 ),
               ),
 
-             // const SizedBox(  width: 20, ),
+              // const SizedBox(  width: 20, ),
 
-              Container(
-
-                margin: const EdgeInsets.only(left:15,top: 15) ,
-                padding: const EdgeInsets.all(12),
-                width: 150,
-                decoration: BoxDecoration(
-                  color: Constant.yellowColor,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: ClipRRect(
+              InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, Disscussoffer.routname);
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(left: 15, top: 15),
+                  padding: const EdgeInsets.all(12),
+                  width: 150,
+                  decoration: BoxDecoration(
+                    color: Constant.yellowColor,
                     borderRadius: BorderRadius.circular(15),
-                    child: const Center(
-                        child: Text(
-                      "Discuss Offer",
-                      style: TextStyle(fontSize: 18, color: Constant.whiteColor),
-              ))),
+                  ),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: const Center(
+                          child: Text(
+                        "Discuss Offer",
+                        style:
+                            TextStyle(fontSize: 18, color: Constant.whiteColor),
+                      ))),
+                ),
               ),
             ],
           ),
-         
-          const SizedBox( height : 20, ),
-
+          const SizedBox(
+            height: 20,
+          ),
         ],
       ),
     );
   }
-
 }
-
-
-
-

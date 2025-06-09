@@ -6,6 +6,7 @@ import 'package:innovahub_app/Models/product_response.dart';
 import 'package:innovahub_app/Models/products/product_model.dart';
 import 'package:innovahub_app/Products/payment_page.dart';
 import 'package:innovahub_app/home/Deals/adding_deal_owner.dart';
+import 'package:innovahub_app/home/Deals/disscussoffer.dart';
 import 'package:innovahub_app/home/Deals/owner_product.dart';
 import 'package:innovahub_app/home/add_Tap_owner.dart';
 import 'package:innovahub_app/home/controller/owner_home_layout/owner_home_layout_cubit.dart';
@@ -72,6 +73,7 @@ abstract class AppRouter {
         CheckoutAddress.routeName: (_) => const CheckoutAddress(),
         OwnerPublish.routeName: (_) => const OwnerPublish(),
         PaymentPage.routeName: (_) => const PaymentPage(),
-        ReviewScreen.routeName:(_) => ReviewScreen(),
+        ReviewScreen.routeName: (_) => ReviewScreen(),
+        Disscussoffer.routname: (_) => Disscussoffer()
       };
 }
