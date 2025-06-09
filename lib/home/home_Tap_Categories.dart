@@ -34,7 +34,7 @@ class _HomeScreenInvestorState extends State<HomeScreenCategories> {
 
           }, icon: Icon(Icons.arrow_back),
           ),*/
-        title: const Text(
+        title: Text(
           'Innova',
           style: TextStyle(
               color: Constant.blackColorDark,
