@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:innovahub_app/home/Deals/acceptpage.dart';
+import 'package:innovahub_app/home/Deals/admindetails.dart';
 import 'package:innovahub_app/home/Deals/disscusspage.dart';
 
 class notificationpage extends StatelessWidget {
@@ -57,6 +58,16 @@ class notificationpage extends StatelessWidget {
                   time: '2h ago',
                   tag: 'Discussion Request',
                   tagColor: Colors.green,
+                  isOnline: true,
+                ),
+                const SizedBox(height: 12),
+                _buildNotificationItem(
+                  context: context,
+                  name: 'Innova Hub',
+                  message: 'A Discuss request wanted\nto be review',
+                  time: '2h ago',
+                  tag: 'Admin Approval',
+                  tagColor: Colors.blue,
                   isOnline: true,
                 ),
               ],
@@ -218,6 +229,9 @@ class notificationpage extends StatelessWidget {
         break;
       case 'Discussion Request':
         Navigator.pushNamed(context, DiscussPage.routeName);
+        break;
+      case 'Admin Approval':
+        Navigator.pushNamed(context, adminprocess.routname);
         break;
       default:
         // Handle other notification types or show a default message
