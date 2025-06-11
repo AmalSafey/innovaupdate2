@@ -5,6 +5,7 @@ import 'package:innovahub_app/Models/profiles/User_profile_model.dart';
 import 'package:innovahub_app/core/Api/Api_Manager_deals.dart';
 import 'package:innovahub_app/core/Api/Api_Manager_profiles.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
+import 'package:innovahub_app/home/Deals/notificationpage.dart';
 
 class DealInvestor extends StatefulWidget {
   const DealInvestor({super.key});
@@ -68,7 +69,7 @@ class _DealInvestorState extends State<DealInvestor> {
                                 ),
                               ),
                               const SizedBox(
-                                width: 130,
+                                width: 50,
                               ),
                               const CircleAvatar(
                                 radius: 9,
@@ -87,6 +88,20 @@ class _DealInvestorState extends State<DealInvestor> {
                                 style: TextStyle(
                                   color: Constant.greyColor3,
                                   fontSize: 16,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 3,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, notificationpage.routname);
+                                },
+                                child: Icon(
+                                  Icons.notifications,
+                                  color: Constant.mainColor,
+                                  size: 20,
                                 ),
                               ),
                             ],

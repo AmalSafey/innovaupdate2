@@ -45,7 +45,7 @@ class DealCardInvestor extends StatelessWidget {
                     size: 40,
                     color: Constant.greyColor3,
                   )),
-              const SizedBox(width: 8),
+              const SizedBox(width: 1),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -62,7 +62,7 @@ class DealCardInvestor extends StatelessWidget {
                         child: Icon(Icons.check,
                             color: Constant.whiteColor, size: 14),
                       ),
-                      SizedBox(width: 8),
+                      SizedBox(width: 16),
                       Text("Verified",
                           style: TextStyle(
                               fontSize: 13, color: Constant.greyColor3))

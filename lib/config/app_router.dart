@@ -5,8 +5,11 @@ import 'package:innovahub_app/Auth/register/register_screen.dart';
 import 'package:innovahub_app/Models/product_response.dart';
 import 'package:innovahub_app/Models/products/product_model.dart';
 import 'package:innovahub_app/Products/payment_page.dart';
+import 'package:innovahub_app/home/Deals/acceptpage.dart';
 import 'package:innovahub_app/home/Deals/adding_deal_owner.dart';
 import 'package:innovahub_app/home/Deals/disscussoffer.dart';
+import 'package:innovahub_app/home/Deals/disscusspage.dart';
+import 'package:innovahub_app/home/Deals/notificationpage.dart';
 import 'package:innovahub_app/home/Deals/owner_product.dart';
 import 'package:innovahub_app/home/add_Tap_owner.dart';
 import 'package:innovahub_app/home/controller/owner_home_layout/owner_home_layout_cubit.dart';
@@ -74,6 +77,9 @@ abstract class AppRouter {
         OwnerPublish.routeName: (_) => const OwnerPublish(),
         PaymentPage.routeName: (_) => const PaymentPage(),
         ReviewScreen.routeName: (_) => ReviewScreen(),
-        Disscussoffer.routname: (_) => Disscussoffer()
+        Disscussoffer.routname: (_) => Disscussoffer(),
+        notificationpage.routname: (_) => notificationpage(),
+        DiscussPage.routeName: (_) => DiscussPage(),
+        AcceptPage.routeName: (_) => AcceptPage()
       };
 }
