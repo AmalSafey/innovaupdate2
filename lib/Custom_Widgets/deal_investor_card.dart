@@ -1,54 +1,34 @@
-
 import 'package:flutter/material.dart';
 import 'package:innovahub_app/Models/Deals/Business_owner_response.dart';
+import 'package:innovahub_app/core/Api/Api_For_Accept.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
-import 'package:quickalert/models/quickalert_type.dart';
-import 'package:quickalert/widgets/quickalert_dialog.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:innovahub_app/home/Deals/disscussoffer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DealCardInvestor extends StatelessWidget {
   final BusinessOwnerResponse deal;
 
   const DealCardInvestor({super.key, required this.deal});
 
-  Future<void> _launchURL() async {
-    final Uri url = Uri.parse('https://innova-web-client-o9f2bm0yn-justmahmuds-projects.vercel.app/owner/Deals');
-    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-      throw Exception('Could not launch $url');
-    }
-  }
-   void acceptshowQuickAlertAndNavigate(BuildContext context) {
-    QuickAlert.show(
-      confirmBtnColor: Constant.mainColor,  
+  void _showAlert(BuildContext context, String message) {
+    showDialog(
       context: context,
-      type: QuickAlertType.info,
-      title: 'Accepting process',
-      text: 'Please Navigate to browser page to complete..',
-      autoCloseDuration: const Duration(seconds: 2),
+      builder: (context) => AlertDialog(
+        title: const Text("Offer Status"),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text("OK"),
+          ),
+        ],
+      ),
     );
-
-    Future.delayed(const Duration(seconds: 2), () {
-      _launchURL();
-    });
-  }
-    void discussshowAcceptAlert(BuildContext context) {
-    QuickAlert.show(
-      confirmBtnColor: Constant.mainColor,  
-      context: context,
-      type: QuickAlertType.info,
-      title: 'Discussing process',
-      text: 'Please Navigate to browser page to complete..',
-      autoCloseDuration: const Duration(seconds: 2),
-    );
-
-    Future.delayed(const Duration(seconds: 2), () {
-      _launchURL();
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    print("Images: ${deal.images}");
+    print("Images: \${deal.images}");
 
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -65,12 +45,6 @@ class DealCardInvestor extends StatelessWidget {
                     size: 40,
                     color: Constant.greyColor3,
                   )),
-              /*Image.asset(
-                'assets/images/owner1.png',
-                height: 60,
-                width: 60,
-                fit: BoxFit.cover,
-              ),*/
               const SizedBox(width: 8),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,9 +54,6 @@ class DealCardInvestor extends StatelessWidget {
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
                           color: Constant.blackColorDark)),
-                  /* Text("ID: ${deal.businessownerId}",
-                      style: const TextStyle(
-                          fontSize: 15, color: Constant.greyColor)),*/
                   const Row(
                     children: [
                       CircleAvatar(
@@ -126,9 +97,7 @@ class DealCardInvestor extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(
-            height: 5,
-          ),
+          const SizedBox(height: 5),
           Text.rich(
             TextSpan(
               children: [
@@ -161,11 +130,11 @@ class DealCardInvestor extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          Text("Offer Money: ${deal.offerMoney} EGP",
+          Text("Offer Money: \${deal.offerMoney} EGP",
               style: const TextStyle(
                   fontWeight: FontWeight.bold, color: Constant.mainColor)),
           const SizedBox(height: 4),
-          Text("Offer Deal: ${deal.offerDeal}%",
+          Text("Offer Deal: \${deal.offerDeal}%",
               style: const TextStyle(
                   fontWeight: FontWeight.bold, color: Constant.mainColor)),
           const SizedBox(height: 10),
@@ -174,7 +143,7 @@ class DealCardInvestor extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(12), // ← الزوايا
+                  borderRadius: BorderRadius.circular(12),
                   child: Image.network(
                     deal.images[0],
                     width: 190,
@@ -204,14 +173,19 @@ class DealCardInvestor extends StatelessWidget {
           Row(
             children: [
               InkWell(
-                onTap: () {
-                acceptshowQuickAlertAndNavigate(context);
+                onTap: () async {
+                  final result =
+                      await AcceptService.acceptOffer(dealId: deal.dealid);
 
+                  // Debug log (optional)
+                  print("Accept result: $result");
+
+                  // Show backend message
+                  _showAlert(context, result['message']);
                 },
                 child: Container(
                   margin: const EdgeInsets.only(left: 6, top: 15),
                   padding: const EdgeInsets.all(12),
-                  //height: 40,
                   width: 190,
                   decoration: BoxDecoration(
                     color: Colors.green,
@@ -225,10 +199,12 @@ class DealCardInvestor extends StatelessWidget {
                   ),
                 ),
               ),
-
               InkWell(
-                onTap: () {
-                  discussshowAcceptAlert(context);
+                onTap: () async {
+                  final prefs = await SharedPreferences.getInstance();
+                  await prefs.setInt("DealId", deal.dealid);
+
+                  Navigator.pushNamed(context, Disscussoffer.routname);
                 },
                 child: Container(
                   margin: const EdgeInsets.only(left: 10, top: 15),

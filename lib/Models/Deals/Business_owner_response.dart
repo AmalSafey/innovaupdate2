@@ -1,6 +1,7 @@
 // Model Business owner response:
 
 class BusinessOwnerResponse {
+  int dealid;
   String businessownerId;
   String businessownerName;
   String businessName;
@@ -13,6 +14,7 @@ class BusinessOwnerResponse {
   List<String> images;
 
   BusinessOwnerResponse({
+    required this.dealid,
     required this.businessownerId,
     required this.businessownerName,
     required this.businessName,
@@ -29,6 +31,7 @@ class BusinessOwnerResponse {
 
   factory BusinessOwnerResponse.fromjson(Map<String, dynamic> json) {
     return BusinessOwnerResponse(
+      dealid: json['DealId'],
       businessownerId: json['BusinessOwnerId'],
       businessownerName: json['BusinessOwnerName'],
       businessName: json['BusinessName'],
@@ -48,6 +51,7 @@ class BusinessOwnerResponse {
 
   Map<String, dynamic> toJson() {
     return {
+      'DealId': dealid,
       'BusinessOwnerId': businessownerId,
       'BusinessOwnerName': businessownerName,
       'BusinessName': businessName,
