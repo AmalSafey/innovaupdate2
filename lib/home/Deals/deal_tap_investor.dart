@@ -93,17 +93,6 @@ class _DealInvestorState extends State<DealInvestor> {
                               const SizedBox(
                                 width: 3,
                               ),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, notificationpage.routname);
-                                },
-                                child: Icon(
-                                  Icons.notifications,
-                                  color: Constant.mainColor,
-                                  size: 20,
-                                ),
-                              ),
                             ],
                           ),
                           /*Text(

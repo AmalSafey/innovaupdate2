@@ -1,8 +1,81 @@
 import 'package:flutter/material.dart';
+import 'package:innovahub_app/core/Api/acceptmodel.dart';
+import 'package:innovahub_app/core/Api/notificationapi.dart';
+import 'package:innovahub_app/home/Deals/acceptpage.dart';
 import 'package:innovahub_app/home/Deals/completeadmindetalis.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class adminprocess extends StatelessWidget {
+class adminprocess extends StatefulWidget {
   static const String routname = "adminprocess";
+  final NotificationData? notificationData;
+  const adminprocess({Key? key, this.notificationData}) : super(key: key);
+
+  @override
+  State<adminprocess> createState() => _adminprocessState();
+}
+
+class _adminprocessState extends State<adminprocess> {
+  Future<void> _saveDealIdAndNavigate() async {
+    try {
+      if (_dealData?.dealId != null) {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('current_deal_id', _dealData!.dealId.toString());
+        print('Deal ID saved: ${_dealData!.dealId}'); // For debugging
+      }
+
+      Navigator.pushNamed(context, completeadminprocess.routname);
+    } catch (e) {
+      print('Error saving deal ID: $e');
+      // Still navigate even if saving fails
+      Navigator.pushNamed(context, completeadminprocess.routname);
+    }
+  }
+
+  void _launchContractURL() async {
+    final url = Uri.parse(
+        'https://innova-hub.premiumasp.net/Contracts/contract_deal_1_638853291527254093.pdf');
+    if (await canLaunchUrl(url)) {
+      await launchUrl(
+        url,
+        mode: LaunchMode.externalApplication,
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Couldn't open the contract URL.")),
+      );
+    }
+  }
+
+  final DealAcceptanceService _dealService = DealAcceptanceService();
+  final TextEditingController _messageController = TextEditingController();
+  bool _isLoading = false;
+  DealAcceptanceData? _dealData;
+  bool _isInitialized = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (!_isInitialized) {
+      final NotificationData? notification = widget.notificationData ??
+          ModalRoute.of(context)?.settings.arguments as NotificationData?;
+
+      if (notification != null) {
+        setState(() {
+          _dealData = DealAcceptanceData.fromNotification(notification);
+        });
+      }
+
+      _isInitialized = true;
+    }
+  }
+
+  @override
+  void dispose() {
+    _messageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,35 +110,26 @@ class adminprocess extends StatelessWidget {
                             color: Color(0xFF333333),
                           ),
                         ),
-                        Icon(
-                          Icons.close,
-                          size: 20,
-                          color: Colors.grey[400],
-                        ),
+                        Icon(Icons.close, size: 20, color: Colors.grey[400]),
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Icon(
-                          Icons.access_time,
-                          size: 16,
-                          color: Colors.grey[500],
-                        ),
+                        Icon(Icons.access_time,
+                            size: 16, color: Colors.grey[500]),
                         const SizedBox(width: 4),
                         Text(
-                          '1h ago',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[500],
-                          ),
+                          _dealData?.getFormattedTime() ?? 'Unknown time',
+                          style:
+                              TextStyle(fontSize: 14, color: Colors.grey[500]),
                         ),
                         const SizedBox(width: 8),
                       ],
                     ),
                     const SizedBox(height: 32),
 
-                    // Welcome title
+                    // Title
                     const Text(
                       'Welcome!',
                       style: TextStyle(
@@ -74,81 +138,40 @@ class adminprocess extends StatelessWidget {
                         color: Color(0xFF333333),
                       ),
                     ),
-
                     const SizedBox(height: 24),
 
-                    // Main content
-                    RichText(
-                      text: TextSpan(
-                        style: const TextStyle(
-                          fontSize: 16,
-                          height: 1.6,
-                          color: Color(0xFF555555),
-                        ),
-                        children: [
-                          const TextSpan(
-                            text:
-                                'An Deal has been successfully approved for the project ',
-                          ),
-                          const TextSpan(
-                            text: '[Project Name]',
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          const TextSpan(text: ' between\n'),
-                          const TextSpan(
-                            text: '[Owner Name]',
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          const TextSpan(text: ' and '),
-                          const TextSpan(
-                            text: '[Investor Name]',
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          const TextSpan(text: ' with Deal ID: '),
-                          const TextSpan(
-                            text: '129',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          const TextSpan(text: '.'),
-                        ],
+                    // Message
+                    Text(
+                      _dealData?.messageText != null
+                          ? 'A contract has been generated for your deal "${_dealData!.messageText.split(' ').take(10).join(' ')}${_dealData!.messageText.split(' ').length > 10 ? '...' : ''}". Please review and sign the contract to proceed with the deal.'
+                          : 'A contract has been generated for your deal. Please review and sign the contract to proceed with the deal.',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        height: 1.6,
+                        color: Color(0xFF555555),
                       ),
                     ),
 
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 16),
 
-                    RichText(
-                      text: const TextSpan(
+                    GestureDetector(
+                      onTap: _launchContractURL,
+                      child: const Text(
+                        'Open Contract URL',
                         style: TextStyle(
                           fontSize: 16,
-                          height: 1.6,
-                          color: Color(0xFF555555),
+                          fontWeight: FontWeight.w600,
+                          color: Colors.blue,
+                          decoration: TextDecoration.underline,
                         ),
-                        children: [
-                          TextSpan(
-                            text: 'An investment amount of ',
-                          ),
-                          TextSpan(
-                            text: '[Offer Money]',
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          TextSpan(
-                            text:
-                                ' will be transferred via the platform to the\nOwner, with an agreed share of ',
-                          ),
-                          TextSpan(
-                            text: '[Offer Percentage]',
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          TextSpan(text: '%.'),
-                        ],
                       ),
                     ),
 
                     const SizedBox(height: 32),
 
-                    // Process description
+                    // Additional info
                     const Text(
-                      'The contract will be drafted and sent shortly after completing some require data.',
+                      'The contract will be drafted and sent shortly after completing some required data.',
                       style: TextStyle(
                         fontSize: 16,
                         height: 1.6,
@@ -158,13 +181,10 @@ class adminprocess extends StatelessWidget {
 
                     const SizedBox(height: 24),
 
-                    // Complete process button
+                    // Button
                     Center(
                       child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(
-                              context, completeadminprocess.routname);
-                        },
+                        onPressed: _saveDealIdAndNavigate,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF1976D2),
                           foregroundColor: Colors.white,
@@ -178,7 +198,7 @@ class adminprocess extends StatelessWidget {
                           elevation: 2,
                         ),
                         child: const Text(
-                          'complete process',
+                          'Complete Process',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
@@ -198,9 +218,7 @@ class adminprocess extends StatelessWidget {
                         color: Color(0xFF333333),
                       ),
                     ),
-
                     const SizedBox(height: 12),
-
                     const Text(
                       'All further details will be included in the contract.',
                       style: TextStyle(
@@ -209,9 +227,7 @@ class adminprocess extends StatelessWidget {
                         color: Color(0xFF555555),
                       ),
                     ),
-
                     const SizedBox(height: 16),
-
                     const Text(
                       'Thank you for placing your trust in us.',
                       style: TextStyle(

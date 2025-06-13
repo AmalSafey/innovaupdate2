@@ -22,27 +22,27 @@ class HomeOwner extends StatefulWidget {
 }
 
 class _HomeOwnerState extends State<HomeOwner> {
-  late Future<List<Investment>> futureInvestments;
-  final ApiService _apiService = ApiService();
+  // late Future<List<Investment>> futureInvestments;
+  //final ApiService _apiService = ApiService();
 
   @override
   void initState() {
     super.initState();
-    _loadInvestments();
+    //  _loadInvestments();
   }
 
-  Future<void> _loadInvestments() async {
+  /*Future<void> _loadInvestments() async {
     setState(() {
       futureInvestments = _apiService.getOwnerInvestments();
     });
-  }
+  }*/
 
-  Future<void> _launchURL() async {
+  /*Future<void> _launchURL() async {
     final Uri url = Uri.parse('https://innov-hub-dashboard.vercel.app/');
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
       throw Exception('Could not launch $url');
     }
-  }
+  }*/
 
   @override
   @override
@@ -55,7 +55,6 @@ class _HomeOwnerState extends State<HomeOwner> {
         color: Constant.mainColor,
       ),
       const SizedBox(height: 15),
-
       Container(
         margin: const EdgeInsets.all(12),
         padding: const EdgeInsets.all(16),
@@ -132,10 +131,9 @@ class _HomeOwnerState extends State<HomeOwner> {
           ],
         ),
       ),
-
       const EstimatedContainer(),
 
-      Container(
+      /* Container(
         margin: const EdgeInsets.all(15),
         padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
@@ -663,6 +661,10 @@ class _HomeOwnerState extends State<HomeOwner> {
           );
         },
       ),
+
+
+
+      */
       /*const SizedBox(
             height: 40,
           ),*/
