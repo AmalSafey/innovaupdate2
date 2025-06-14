@@ -12,6 +12,7 @@ import 'package:innovahub_app/home/Deals/completeadmindetalis.dart';
 import 'package:innovahub_app/home/Deals/disscussoffer.dart';
 import 'package:innovahub_app/home/Deals/disscusspage.dart';
 import 'package:innovahub_app/home/Deals/notificationpage.dart';
+import 'package:innovahub_app/home/Deals/notificationpageforinvestor.dart';
 import 'package:innovahub_app/home/Deals/owner_product.dart';
 import 'package:innovahub_app/home/add_Tap_owner.dart';
 import 'package:innovahub_app/home/controller/owner_home_layout/owner_home_layout_cubit.dart';
@@ -84,6 +85,8 @@ abstract class AppRouter {
         DiscussPage.routeName: (_) => DiscussPage(),
         AcceptPage.routeName: (_) => AcceptPage(),
         adminprocess.routname: (_) => adminprocess(),
-        completeadminprocess.routname: (_) => completeadminprocess()
+        completeadminprocess.routname: (_) => completeadminprocess(),
+        notificationpageforinvestor.routname: (_) =>
+            notificationpageforinvestor()
       };
 }

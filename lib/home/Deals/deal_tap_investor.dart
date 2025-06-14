@@ -6,6 +6,7 @@ import 'package:innovahub_app/core/Api/Api_Manager_deals.dart';
 import 'package:innovahub_app/core/Api/Api_Manager_profiles.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
 import 'package:innovahub_app/home/Deals/notificationpage.dart';
+import 'package:innovahub_app/home/Deals/notificationpageforinvestor.dart';
 
 class DealInvestor extends StatefulWidget {
   const DealInvestor({super.key});
@@ -93,6 +94,21 @@ class _DealInvestorState extends State<DealInvestor> {
                               const SizedBox(
                                 width: 3,
                               ),
+                              Row(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.pushNamed(context,
+                                          notificationpageforinvestor.routname);
+                                    },
+                                    child: Icon(
+                                      Icons.notifications,
+                                      color: Constant.mainColor,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ],
+                              )
                             ],
                           ),
                           /*Text(
