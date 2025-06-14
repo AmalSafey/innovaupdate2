@@ -9,6 +9,7 @@ import 'package:innovahub_app/Models/profiles/User_profile_model.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
 import 'package:innovahub_app/profiles/Widgets/log_out_Textfield.dart';
 import 'package:innovahub_app/profiles/Widgets/textField_user.dart';
+import 'package:innovahub_app/profiles/bussinessanalysis.dart';
 import 'package:innovahub_app/profiles/privacy_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -326,10 +327,15 @@ class _ProfileDesignState extends State<ProfileOwner> {
             ),
 
             const SizedBox(height: 15),
-            const ContainerUser(
-              icon: Icons.show_chart,
-              title: "Discover your Dashboard",
-              route: null,
+            InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, bussinessanalysis.routname);
+              },
+              child: const ContainerUser(
+                icon: Icons.show_chart,
+                title: "Discover your Dashboard",
+                route: null,
+              ),
             ),
             const SizedBox(height: 15),
             const ContainerUser(

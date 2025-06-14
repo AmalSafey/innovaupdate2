@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
+import 'package:innovahub_app/core/Api/acceptmodel.dart';
+import 'package:innovahub_app/core/Api/notificationapi.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
+import 'package:innovahub_app/home/Deals/acceptpage.dart';
+import 'package:innovahub_app/home/Deals/admindetails.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -98,9 +102,11 @@ class _completeadminprocessState extends State<completeadminprocess> {
 
 // Separate widget for the actual UI content
 class PaymentProcessPage extends StatefulWidget {
+  final NotificationData? notificationData;
   final int? dealId;
 
-  const PaymentProcessPage({Key? key, this.dealId}) : super(key: key);
+  const PaymentProcessPage({Key? key, this.dealId, this.notificationData})
+      : super(key: key);
 
   @override
   _PaymentProcessPageState createState() => _PaymentProcessPageState();
@@ -108,7 +114,13 @@ class PaymentProcessPage extends StatefulWidget {
 
 class _PaymentProcessPageState extends State<PaymentProcessPage> {
   final TextEditingController _durationController = TextEditingController();
+  final TextEditingController _messageController = TextEditingController();
+  final DealAcceptanceService _dealService = DealAcceptanceService();
+
   int? _dealId;
+  bool _isLoading = false;
+  DealAcceptanceData? _dealData;
+  bool _isInitialized = false;
 
   @override
   void initState() {
@@ -117,9 +129,34 @@ class _PaymentProcessPageState extends State<PaymentProcessPage> {
     _loadDealId();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (!_isInitialized) {
+      final NotificationData? notification = widget.notificationData ??
+          ModalRoute.of(context)?.settings.arguments as NotificationData?;
+
+      if (notification != null) {
+        setState(() {
+          _dealData = DealAcceptanceData.fromNotification(notification);
+          // Set deal ID from notification data if available
+          if (_dealData?.dealId != null) {
+            _dealId = _dealData!.dealId;
+          }
+        });
+      }
+
+      _isInitialized = true;
+    }
+  }
+
   Future<void> _loadDealId() async {
+    // Priority order: widget.dealId -> notification data -> SharedPreferences
     if (widget.dealId != null) {
       _dealId = widget.dealId;
+    } else if (_dealData?.dealId != null) {
+      _dealId = _dealData!.dealId;
     } else {
       // Try to get deal ID from SharedPreferences if not passed
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -128,16 +165,24 @@ class _PaymentProcessPageState extends State<PaymentProcessPage> {
         _dealId = int.tryParse(dealIdString);
       }
     }
-    setState(() {});
+
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
   void dispose() {
     _durationController.dispose();
+    _messageController.dispose();
     super.dispose();
   }
 
   void _processPayment() {
+    // Debug print to see what deal ID we have
+    print('Current deal ID: $_dealId');
+    print('Deal data: ${_dealData?.dealId}');
+
     if (_dealId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -282,14 +327,15 @@ class _PaymentProcessPageState extends State<PaymentProcessPage> {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
-                              color: Color(0xFF333333),
+                              color: Color(0xFF777777),
                             ),
                           ),
                           Text(
                             _dealId?.toString() ?? 'Loading...',
                             style: TextStyle(
                               fontSize: 16,
-                              color: Color(0xFF555555),
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xFF333333),
                             ),
                           ),
                         ],
@@ -383,7 +429,7 @@ class _PaymentProcessPageState extends State<PaymentProcessPage> {
                                     ),
                                   )
                                 : Text(
-                                    'Complete Payment',
+                                    'Complete process',
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
@@ -423,22 +469,6 @@ class _PaymentProcessPageState extends State<PaymentProcessPage> {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-// Example of how to navigate to this screen with deal ID
-class NavigationHelper {
-  static void navigateToPaymentProcess(BuildContext context, int dealId) async {
-    // Save deal ID to SharedPreferences for backup
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString("current_deal_id", dealId.toString());
-
-    // Navigate with deal ID parameter
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => completeadminprocess(dealId: dealId),
       ),
     );
   }

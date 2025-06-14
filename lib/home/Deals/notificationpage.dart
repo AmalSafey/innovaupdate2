@@ -542,6 +542,7 @@ import 'package:innovahub_app/core/Api/cubicnotification.dart';
 import 'package:innovahub_app/core/Api/notificationapi.dart';
 import 'package:innovahub_app/home/Deals/acceptpage.dart';
 import 'package:innovahub_app/home/Deals/admindetails.dart';
+import 'package:innovahub_app/home/Deals/adminprocessforowner.dart';
 import 'package:innovahub_app/home/Deals/completeadmindetalis.dart';
 import 'package:innovahub_app/home/Deals/disscusspage.dart';
 import 'package:intl/intl.dart';
@@ -994,7 +995,7 @@ class _NotificationPageState extends State<notificationpage> {
       case 'general':
         Navigator.pushNamed(
           context,
-          completeadminprocess.routname,
+          adminprocessforowner.routname,
           arguments: notification,
         );
         break;

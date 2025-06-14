@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:innovahub_app/core/Api/cubicnotification.dart';
 import 'package:innovahub_app/core/Api/notificationapi.dart';
+import 'package:innovahub_app/home/Deals/accepptpageforinvestor.dart';
+import 'package:innovahub_app/home/Deals/acceptpage.dart';
+import 'package:innovahub_app/home/Deals/admindetails.dart';
+import 'package:innovahub_app/home/Deals/disscusspage.dart';
 import 'package:intl/intl.dart';
 
 class notificationpageforinvestor extends StatefulWidget {
@@ -214,6 +218,9 @@ class _NotificationPageState extends State<notificationpageforinvestor> {
     // Format the time
     String formattedTime = _formatTime(notification.createdAt);
 
+    // Get tag info based on message type
+    Map<String, dynamic> tagInfo = _getTagInfo(notification.messageType);
+
     return GestureDetector(
       onTap: () => _handleNotificationTap(context, notification),
       child: Container(
@@ -245,7 +252,7 @@ class _NotificationPageState extends State<notificationpageforinvestor> {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1976D2).withOpacity(0.1),
+                    color: tagInfo['color'].withOpacity(0.1),
                     shape: BoxShape.circle,
                   ),
                   child: Center(
@@ -253,8 +260,8 @@ class _NotificationPageState extends State<notificationpageforinvestor> {
                       notification.senderName.isNotEmpty
                           ? notification.senderName[0].toUpperCase()
                           : 'U',
-                      style: const TextStyle(
-                        color: Color(0xFF1976D2),
+                      style: TextStyle(
+                        color: tagInfo['color'],
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
@@ -288,7 +295,7 @@ class _NotificationPageState extends State<notificationpageforinvestor> {
                 ),
 
                 // Time and dismiss button
-                /*   Row(
+                Row(
                   children: [
                     Text(
                       formattedTime,
@@ -307,7 +314,7 @@ class _NotificationPageState extends State<notificationpageforinvestor> {
                       ),
                     ),
                   ],
-                ),*/
+                ),
               ],
             ),
 
@@ -326,9 +333,31 @@ class _NotificationPageState extends State<notificationpageforinvestor> {
 
             const SizedBox(height: 16),
 
-            // Bottom Row with Arrow only (removed tag)
+            // Bottom Row with Tag and Arrow
             Row(
               children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: tagInfo['color'].withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: tagInfo['color'].withOpacity(0.3),
+                      width: 1,
+                    ),
+                  ),
+                  child: Text(
+                    tagInfo['label'],
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: tagInfo['color'],
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
                 const Spacer(),
                 Icon(
                   Icons.arrow_forward_ios,
@@ -339,7 +368,7 @@ class _NotificationPageState extends State<notificationpageforinvestor> {
             ),
 
             // Unread indicator
-            /*   if (!notification.isRead)
+            if (!notification.isRead)
               Container(
                 margin: const EdgeInsets.only(top: 12),
                 height: 2,
@@ -348,11 +377,38 @@ class _NotificationPageState extends State<notificationpageforinvestor> {
                   color: const Color(0xFF1976D2).withOpacity(0.3),
                   borderRadius: BorderRadius.circular(1),
                 ),
-              ),*/
+              ),
           ],
         ),
       ),
     );
+  }
+
+  Map<String, dynamic> _getTagInfo(String messageType) {
+    switch (messageType.toLowerCase()) {
+      case 'offeraccepted':
+        return {
+          'label': 'Deals Acceptance',
+          'color': const Color(0xFF1976D2),
+        };
+      case 'discussoffer':
+      case 'offerdiscussion':
+        return {
+          'label': 'Discussion Request',
+          'color': Colors.green,
+        };
+      case 'admin':
+      case 'general':
+        return {
+          'label': 'Admin Approval',
+          'color': Colors.orange,
+        };
+      default:
+        return {
+          'label': 'Notification',
+          'color': Colors.grey,
+        };
+    }
   }
 
   String _formatTime(String createdAt) {
@@ -380,14 +436,38 @@ class _NotificationPageState extends State<notificationpageforinvestor> {
       _notificationCubit.markNotificationAsRead(notification.id);
     }
 
-    // Simple tap handling - you can add basic navigation here if needed
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Notification tapped: ${notification.messageText}'),
-        duration: const Duration(seconds: 2),
-        backgroundColor: const Color(0xFF1976D2),
-      ),
-    );
+    // Navigate based on message type and pass notification data
+    switch (notification.messageType.trim().toLowerCase()) {
+      case 'offeraccepted':
+        Navigator.pushNamed(
+          context,
+          AcceptPageforinvestor.routeName,
+          arguments: notification,
+        );
+        break;
+      /* case 'offerdiscussion':
+        Navigator.pushNamed(
+          context,
+          DiscussPage.routeName,
+          arguments: notification,
+        );
+        break;*/
+      case 'general':
+        Navigator.pushNamed(
+          context,
+          adminprocess.routname,
+          arguments: notification,
+        );
+        break;
+
+      default:
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('No action defined for: ${notification.messageType}'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+    }
   }
 
   void _dismissNotification(
