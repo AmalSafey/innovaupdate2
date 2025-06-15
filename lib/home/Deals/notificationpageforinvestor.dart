@@ -215,10 +215,8 @@ class _NotificationPageState extends State<notificationpageforinvestor> {
     required BuildContext context,
     required NotificationData notification,
   }) {
-    // Format the time
     String formattedTime = _formatTime(notification.createdAt);
 
-    // Get tag info based on message type
     Map<String, dynamic> tagInfo = _getTagInfo(notification.messageType);
 
     return GestureDetector(
