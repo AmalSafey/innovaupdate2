@@ -110,7 +110,7 @@ class AuthCubit extends Cubit<AuthStates> {
         }*/
         if (data.containsKey("Token")) {
           String token = data["Token"];
-          String userId = data["UserId"];
+          String userId = data["UserId"].toString().trim();
           String role = data["RoleName"];
           String message = data["Message"];
 

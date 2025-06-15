@@ -32,21 +32,6 @@ class _adminprocessState extends State<adminprocess> {
     }
   }
 
-  void _launchContractURL() async {
-    final url = Uri.parse(
-        'https://innova-hub.premiumasp.net/Contracts/contract_deal_1_638853291527254093.pdf');
-    if (await canLaunchUrl(url)) {
-      await launchUrl(
-        url,
-        mode: LaunchMode.externalApplication,
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Couldn't open the contract URL.")),
-      );
-    }
-  }
-
   final DealAcceptanceService _dealService = DealAcceptanceService();
   final TextEditingController _messageController = TextEditingController();
   bool _isLoading = false;
@@ -154,19 +139,6 @@ class _adminprocessState extends State<adminprocess> {
 
                     const SizedBox(height: 16),
 
-                    GestureDetector(
-                      onTap: _launchContractURL,
-                      child: const Text(
-                        'Open Contract URL',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.blue,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ),
-
                     const SizedBox(height: 32),
 
                     // Additional info
@@ -198,7 +170,7 @@ class _adminprocessState extends State<adminprocess> {
                           elevation: 2,
                         ),
                         child: const Text(
-                          'Complete Process',
+                          'Complete',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
@@ -210,24 +182,7 @@ class _adminprocessState extends State<adminprocess> {
                     const SizedBox(height: 32),
 
                     // Contract terms
-                    const Text(
-                      'Contract terms:',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF333333),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    const Text(
-                      'All further details will be included in the contract.',
-                      style: TextStyle(
-                        fontSize: 16,
-                        height: 1.6,
-                        color: Color(0xFF555555),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
+
                     const Text(
                       'Thank you for placing your trust in us.',
                       style: TextStyle(

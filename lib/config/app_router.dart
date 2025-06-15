@@ -5,6 +5,7 @@ import 'package:innovahub_app/Auth/register/register_screen.dart';
 import 'package:innovahub_app/Models/product_response.dart';
 import 'package:innovahub_app/Models/products/product_model.dart';
 import 'package:innovahub_app/Products/payment_page.dart';
+import 'package:innovahub_app/Products/useruiforreturn.dart';
 import 'package:innovahub_app/home/Deals/accepptpageforinvestor.dart';
 import 'package:innovahub_app/home/Deals/acceptpage.dart';
 import 'package:innovahub_app/home/Deals/adding_deal_owner.dart';
@@ -93,6 +94,7 @@ abstract class AppRouter {
             notificationpageforinvestor(),
         bussinessanalysis.routname: (_) => bussinessanalysis(),
         AcceptPageforinvestor.routeName: (_) => AcceptPageforinvestor(),
-        adminprocessforowner.routname: (_) => adminprocessforowner()
+        adminprocessforowner.routname: (_) => adminprocessforowner(),
+        UserProductsScreen.routname: (_) => UserProductsScreen()
       };
 }
